@@ -15,10 +15,6 @@ WORKDIR /curve_excercise
 # Copy the current directory contents into the container at /curve_excercise
 ADD . /curve_excercise/
 
-RUN rm -f tmp.db db.sqlite3
-RUN rm -r my-app/migrations
-RUN python manage.py makemigrations
-
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
