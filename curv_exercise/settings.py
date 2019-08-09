@@ -80,7 +80,33 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'curv_exercise_db',
+        # 'USER': 'postgres',
+        # 'PASSWORD': '',
+        # 'HOST': '',
+        # 'PORT': '',
+
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'silken-order-242812:europe-west1:curv-exercise-db',
+        # 'USER': 'postgres',
+        # 'PASSWORD': '',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '5432',
+
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'database1',
+        # 'USER': 'database1_role',
+        # 'PASSWORD': 'database1_password',
+        # 'HOST': 'database1',
+        # 'PORT': '5432',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 
