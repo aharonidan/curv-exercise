@@ -11,7 +11,7 @@ class Transaction(models.Model):
 
 class Rule(models.Model):
 
-	CURRENCIES = ['BTC', 'USD', 'AUD', 'BRL', 'CAD', 'CHF', 'CLP', 'CNY', 'DKK', 'EUR', 'GBP', 'HKD', 'INR', 'ISK', 'JPY', 'KRW', 'NZD', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TWD']
+	CURRENCIES = ['BTC', 'USD']
 
 	created = models.DateTimeField(auto_now_add=True)
 	max_amount = models.FloatField(default=0, validators=[MinValueValidator(0)])

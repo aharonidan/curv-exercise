@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Transaction, Rule
-import requests
+from .helpers import btc_to_usd
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -11,17 +11,16 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 	def create(self, validated_data):
 
-		transaction_amount = validated_data['amount']
+		btc_amount = validated_data['amount']
+		usd_amount = btc_to_usd(btc_amount)
 
-		ticker = requests.get('https://blockchain.info/ticker')
-		usd_rate = ticker.json()['USD']['last']
-		# convert amount to usd
-		usd_amount = usd_rate * transaction_amount
-
-		usd_rules = Rule.objects.filter(whitelist_address__exact=validated_data['address']).filter(currency__exact='USD').filter(max_amount__gte=usd_amount)
-		btc_rules = Rule.objects.filter(whitelist_address__exact=validated_data['address']).filter(currency__exact='BTC').filter(max_amount__gte=transaction_amount)
+		whitelisted_address_rules = Rule.objects.filter(whitelist_address__exact=validated_data['address'])
+		usd_rules = whitelisted_address_rules.filter(currency__exact='USD').filter(max_amount__gte=usd_amount)
+		btc_rules = whitelisted_address_rules.filter(currency__exact='BTC').filter(max_amount__gte=btc_amount)
 		rules = usd_rules | btc_rules
+
 		validated_data['status'] = 'rejected' if not rules else 'confirmed'
+
 		return super(TransactionSerializer, self).create(validated_data)
 
 class RuleSerializer(serializers.ModelSerializer):
