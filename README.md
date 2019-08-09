@@ -6,9 +6,9 @@ The API endpoints are the following.
 /transactions
 /rules
 ```
-Policy rules can include currency, USD or BTC. Whenever a new transaction is added, it validated against rules in both currencies according to the current BTC/USD exchange rate.
+Policy rules can include currency, USD or BTC. Whenever a new transaction is added, it is validated against rules in both currencies according to the current BTC/USD exchange rate.
 
-It is runnnig live on Google Cloud App Engine and can be accessed through the following url.
+The app is runnnig live on Google Cloud App Engine and can be accessed through the following url.
 ```
 http://silken-order-242812.appspot.com/
 ```
@@ -35,6 +35,10 @@ Install dependencies
 pip install -r requirements.txt
 ```
 Migrate database
+```
+python run manage.py migrate
+```
+Run local server
 ```
 python run manage.py runserver
 ```
