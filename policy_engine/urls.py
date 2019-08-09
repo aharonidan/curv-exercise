@@ -8,5 +8,8 @@ router.register('transactions', views.TransactionView)
 router.register('rules', views.RuleView)
 
 urlpatterns = [
-	path('', include(router.urls))
+	path('transactions/confirmed', views.TransactionView.confirmed, name='confirmed'),
+	path('transactions/rejected', views.TransactionView.rejected, name='rejected'),
+	path('transactions/all', views.TransactionView.all, name='rejected'),
+	path('', include(router.urls)),
 ]

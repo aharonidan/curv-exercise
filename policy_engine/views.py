@@ -10,6 +10,15 @@ class TransactionView(mixins.CreateModelMixin,
 	queryset = Transaction.objects.all()
 	serializer_class = TransactionSerializer
 
+	def confirmed(request):
+		return Transaction.objects.filter(status__exact='confirmed').all()
+
+	def rejected(request):
+		return Transaction.objects.filter(status__exact='rejected').all()
+
+	def all(request):
+		return Transaction.objects.all()
+
 class RuleView(viewsets.ModelViewSet):
 	queryset = Rule.objects.all()
 	serializer_class = RuleSerializer
