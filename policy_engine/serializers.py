@@ -7,22 +7,22 @@ class TransactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Transaction
 		fields = ('id', 'amount', 'address', 'status')
+		read_only_fields = ('status',)
 
 	def create(self, validated_data):
-		transaction = super(TransactionSerializer, self).create(validated_data)
 
-		ticker = requests.get('https://blockchain.info/ticker').json()
-		usd_amount = ticker['USD']['last'] * transaction.amount
+		transaction_amount = validated_data['amount']
 
-		usd_rules = Rule.objects.filter(whitelist_address__exact=transaction.address).filter(currency__exact='USD').filter(max_amount__gte=usd_amount)
-		btc_rules = Rule.objects.filter(whitelist_address__exact=transaction.address).filter(currency__exact='BTC').filter(max_amount__gte=transaction.amount)
+		ticker = requests.get('https://blockchain.info/ticker')
+		usd_rate = ticker.json()['USD']['last']
+		# convert amount to usd
+		usd_amount = usd_rate * transaction_amount
+
+		usd_rules = Rule.objects.filter(whitelist_address__exact=validated_data['address']).filter(currency__exact='USD').filter(max_amount__gte=usd_amount)
+		btc_rules = Rule.objects.filter(whitelist_address__exact=validated_data['address']).filter(currency__exact='BTC').filter(max_amount__gte=transaction_amount)
 		rules = usd_rules | btc_rules
-
-
-		transaction.status = 'rejected' if not rules else 'confirmed'
-		transaction.save()
-
-		return transaction
+		validated_data['status'] = 'rejected' if not rules else 'confirmed'
+		return super(TransactionSerializer, self).create(validated_data)
 
 class RuleSerializer(serializers.ModelSerializer):
 	class Meta:
