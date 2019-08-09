@@ -25,7 +25,7 @@ SECRET_KEY = 't^jdw5zab345$e1vk&d9t%6l8#6swaz8=7h#pp+u9hzx$q@wed'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['silken-order-242812.appspot.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
