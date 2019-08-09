@@ -20,6 +20,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 
 		transaction.status = 'rejected' if not rules else 'confirmed'
+		transaction.save()
 
 		return transaction
 
