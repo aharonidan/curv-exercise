@@ -14,6 +14,21 @@ http://silken-order-242812.appspot.com/
 ```
 The app can be used through the auto generated web interface as well as through the json API interface.
 
+## Run using docker
+
+Build docker image
+```
+docker build -t <image name> .
+```
+To run the docker image of the application use the following command.
+```
+docker run -p 8000:8000 <image name>
+```
+To run the app together with a postgres and ngnix containers use the following command.
+```
+docker-compose up
+```
+
 ## Docker image repository
 The live app is running in a docker container. \
 The docker image repository can be found in the following url.
